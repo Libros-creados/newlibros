@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Más allá de las letras</title>
+    <style>
+        /* Estilo general */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a001a, #000000);
+            color: white;
+            padding-top: 80px;
+            overflow-x: hidden;
+        }
+
+        /* Encabezado fijo */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        /* Librero */
+        .librero {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px;
+            padding: 10px;
+        }
+
+        .libro {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background-color: #6a0dad;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .libro:hover {
+            background-color: #4b0082;
+        }
+
+        .libro img {
+            width: 100px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .libro .contenido {
+            flex-grow: 1;
+        }
+
+        .libro .titulo {
+            font-size: 1.2rem;
+            margin: 0 0 5px;
+        }
+
+        .libro .descarga a {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #6a0dad;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .libro .descarga a:hover {
+            background-color: #6a0dad;
+            color: #ffffff;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #1a001a;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .modal-content button {
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .modal-content button:hover {
+            background-color: #4b0082;
+        }
+
+        /* Popup */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: #1a001a;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .popup-content button {
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .popup-content button:hover {
+            background-color: #4b0082;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .libro {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .libro img {
+                width: 80px;
+                height: 120px;
+            }
+
+            .libro .titulo {
+                font-size: 1rem;
+            }
+
+            .libro .descarga a {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+
+            .libro img {
+                width: 70px;
+                height: 100px;
+            }
+
+            .libro .titulo {
+                font-size: 0.9rem;
+            }
+
+            .libro .descarga a {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            body {
+                padding-top: 60px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const downloadLinks = document.querySelectorAll('.descarga a[href="#"]');
+
+            downloadLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const modal = document.getElementById('modal');
+                    modal.style.display = 'flex';
+                });
+            });
+
+            const closeModal = document.getElementById('closeModal');
+            closeModal.addEventListener('click', () => {
+                const modal = document.getElementById('modal');
+                modal.style.display = 'none';
+            });
+        });
+
+        function cerrarPopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Más allá de las letras</h1>
+    </header>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <h2>Bienvenido a la página</h2>
+            <button onclick="cerrarPopup()">Aceptar</button>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Lo sentimos, libro aún no disponible</h2>
+            <button id="closeModal">Cerrar</button>
+        </div>
+    </div>
+
+    <main>
+        <center>
+            <p>
+                Los libros son importantes porque nos permiten aprender, imaginar y explorar nuevos mundos. Son una
+                fuente de conocimiento, inspiración y creatividad.
+            </p>
+        </center>
+
+        <hr style="border: 1px solid #6a0dad; margin: 20px 0;">
+        <center>
+            <h2>Libros disponibles</h2>
+        </center>
+        <hr style="border: 1px solid #6a0dad; margin: 20px 0;">
+
+        <div class="librero">
+            <div class="libro">
+                <img src="LA CASA QUE NUNCA PERMANECE VACÍA.jpg" alt="La casa que nunca permanece vacía">
+                <div class="contenido">
+                    <div class="titulo">La casa que nunca permanece vacía</div>
+                </div>
+                <div class="descarga">
+                    <a href="LA CASA QUE NUNCA PERMANECE VACÍA.pdf" download="LaCasaQueNuncaPermanece.pdf">Descargar</a>
+                </div>
+            </div>
+            <div class="libro">
+                <img src="fragmentos1.jpg" alt="Fragmentos del alma">
+                <div class="contenido">
+                    <div class="titulo">Fragmentos del alma</div>
+                </div>
+                <div class="descarga">
+                    <a href="FRAGMENTOS DEL ALMA.pdf" download="FragmentosDelAlma.pdf">Descargar</a>
+                </div>
+            </div>
+            <hr style="border: 1px solid #6a0dad; margin: 20px 0;">
+            <center>
+                <h2>Libros próximamente</h2>
+            </center>
+            <hr style="border: 1px solid #6a0dad; margin: 20px 0;">
+            <div class="libro">
+                <img src="fragmentos .jpg" alt="Fragmentos del alma 2">
+                <div class="contenido">
+                    <div class="titulo">Fragmentos del alma 2</div>
+                </div>
+                <div class="descarga">
+                    <a href="#">Descargar</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
